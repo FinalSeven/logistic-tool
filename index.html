@@ -1,133 +1,133 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Logistic Tool Testseite</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; }
-    header { background-color: #3f51b5; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-    header .logo { font-weight: bold; font-size: 1.2em; }
-    .container { padding: 20px; }
-    .search-box { background: white; padding: 20px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    .search-box label { display: block; margin: 8px 0 4px; font-size: 0.9em; }
-    .search-box input, .search-box select { width: 100%; padding: 6px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
-    .search-buttons { display: flex; gap: 10px; }
-    .search-buttons button { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
-    .primary { background-color: #3f51b5; }
-    .secondary { background-color: #777; }
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden; }
-    th, td { padding: 10px; border-bottom: 1px solid #ccc; text-align: left; font-size: 0.9em; }
-    th { background: #f1f1f1; font-weight: bold; }
-    tr:hover { background: #f9f9f9; }
-    .icon { text-align: center; cursor: pointer; }
-  </style>
+<meta charset="UTF-8">
+<title>Logistic Tool Testseite</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+input, select, button { margin: 5px; padding: 5px; font-size: 14px; }
+table { margin-top: 20px; border-collapse: collapse; width: 100%; }
+table, th, td { border: 1px solid #ccc; }
+th, td { padding: 8px; text-align: left; }
+.icon { cursor: pointer; font-size: 20px; }
+</style>
 </head>
 <body>
-<header>
-  <div class="logo">Logistic Tool</div>
-  <div class="lang">🌐</div>
-</header>
+<h1>Logistic Tool Testseite</h1>
 
-<div class="container">
-  <div class="search-box">
-    <label for="part">Artikelnummer</label>
-    <input type="text" id="part" placeholder="z. B. 0404517">
+<label for="part">Teilenummer:</label>
+<input type="text" id="part" placeholder="Teilenummer eingeben">
 
-    <label for="country">Land</label>
-    <select id="country">
-      <option value="DE">Deutschland - DE</option>
-      <option value="BE">Belgien - BE</option>
-      <option value="FR">Frankreich - FR</option>
-    </select>
+<br>
 
-    <label for="lang">Sprache</label>
-    <select id="lang">
-      <option value="de">Deutsch - de</option>
-      <option value="fr">Französisch - fr</option>
-      <option value="en">Englisch - en</option>
-    </select>
+<label for="country">Land:</label>
+<select id="country">
+  <option value="">-- Land wählen --</option>
+  <option value="DE">Deutschland</option>
+  <option value="BE">Belgien</option>
+  <option value="FR">Frankreich</option>
+  <option value="BG">Bulgarien</option>
+  <option value="CN">China</option>
+  <option value="DK">Dänemark</option>
+  <option value="EE">Estland</option>
+  <option value="NL">Niederlande</option>
+  <option value="IT">Italien</option>
+  <option value="US">USA</option>
+  <option value="CA">Kanada</option>
+  <option value="KR">Korea</option>
+  <option value="CY">Republik Zypern</option>
+  <option value="CH">Schweiz</option>
+</select>
 
-    <div class="search-buttons">
-      <button class="primary" onclick="searchArticle()">Suche</button>
-      <button class="secondary" onclick="resetForm()">Zurücksetzen</button>
-    </div>
-  </div>
+<label for="lang">Sprache:</label>
+<select id="lang">
+  <option value="">-- Sprache wählen --</option>
+  <option value="de">Deutsch</option>
+  <option value="fr">Französisch</option>
+  <option value="nl">Niederländisch</option>
+  <option value="bg">Bulgarisch</option>
+  <option value="zh">Chinesisch</option>
+  <option value="en">Englisch</option>
+  <option value="da">Dänisch</option>
+  <option value="et">Estnisch</option>
+  <option value="it">Italienisch</option>
+  <option value="ko">Koreanisch</option>
+  <option value="el">Griechisch</option>
+  <option value="tr">Türkisch</option>
+</select>
 
-  <table id="resultsTable" style="display:none;">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Land</th>
-        <th>Sprache</th>
-        <th>Größe</th>
-        <th>A4 Label</th>
-        <th>Einzeletikett</th>
-        <th>Logistik</th>
-        <th>Handbuch</th>
-      </tr>
-    </thead>
-    <tbody id="resultsBody"></tbody>
-  </table>
-</div>
+<br>
+
+<button class="primary">Suche</button>
+
+<table id="resultsTable">
+  <thead>
+    <tr>
+      <th>Teilenummer</th>
+      <th>Beschreibung</th>
+      <th>LKW</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1234567</td>
+      <td>Beispielartikel</td>
+      <td class="icon">🚚</td>
+    </tr>
+    <tr>
+      <td>2345678</td>
+      <td>Beispielartikel 2</td>
+      <td class="icon">🚚</td>
+    </tr>
+  </tbody>
+</table>
 
 <script>
-const { jsPDF } = window.jspdf;
+const landSprachen = {
+  "DE": ["de"], "BE": ["de","fr","nl"], "FR": ["fr"], "BG": ["bg"],
+  "CN": ["zh","en"], "DK": ["da"], "EE": ["et"], "NL": ["nl"],
+  "IT": ["it"], "US": ["en"], "CA": ["en","fr"], "KR": ["ko","en"],
+  "CY": ["el","tr"], "CH": ["de","fr","it"]
+};
 
-function searchArticle() {
-  const part = document.getElementById("part").value.trim();
-  const country = document.getElementById("country").value;
-  const lang = document.getElementById("lang").value;
-  const resultsTable = document.getElementById("resultsTable");
-  const resultsBody = document.getElementById("resultsBody");
+// Filtert die Sprachen im Dropdown, je nach ausgewähltem Land
+document.getElementById("country").addEventListener("change", function() {
+  const land = this.value;
+  const langSelect = document.getElementById("lang");
+  const sprachen = landSprachen[land] || [];
+  
+  // Optionen zurücksetzen
+  langSelect.innerHTML = "";
+  sprachen.forEach(spr => {
+    let text = spr;
+    if(spr === "de") text="Deutsch";
+    if(spr === "fr") text="Französisch";
+    if(spr === "nl") text="Niederländisch";
+    if(spr === "bg") text="Bulgarisch";
+    if(spr === "zh") text="Chinesisch";
+    if(spr === "en") text="Englisch";
+    if(spr === "da") text="Dänisch";
+    if(spr === "et") text="Estnisch";
+    if(spr === "it") text="Italienisch";
+    if(spr === "ko") text="Koreanisch";
+    if(spr === "el") text="Griechisch";
+    if(spr === "tr") text="Türkisch";
+    
+    const option = document.createElement("option");
+    option.value = spr;
+    option.textContent = text;
+    langSelect.appendChild(option);
+  });
+});
 
-  if (!part) {
-    alert("Bitte eine Artikelnummer eingeben!");
-    return;
-  }
-
-  let size = "M";
-  if (part === "0404517") size = "L";
-  if (part === "2365987") size = "XS";
-
-  resultsBody.innerHTML = `
-    <tr>
-      <td><strong>${part}</strong><br>Beispielartikel</td>
-      <td>${country}</td>
-      <td>${lang}</td>
-      <td>${size}</td>
-      <td class="icon">📄</td>
-      <td class="icon">📁</td>
-      <td class="icon" onclick="openPDF('${part}_${country}_${lang}')">🚚</td>
-      <td class="icon">📘</td>
-    </tr>
-  `;
-  resultsTable.style.display = "table";
-}
-
-function resetForm() {
-  document.getElementById("part").value = "";
-  document.getElementById("country").selectedIndex = 0;
-  document.getElementById("lang").selectedIndex = 0;
-  document.getElementById("resultsTable").style.display = "none";
-  document.getElementById("resultsBody").innerHTML = "";
-}
-
-function openPDF(name) {
-  const doc = new jsPDF();
-  doc.text(`PDF für ${name}`, 10, 10);
-
-  const pdfBlob = doc.output("blob");
-  const pdfFile = new File([pdfBlob], `${name}.pdf`, { type: "application/pdf" });
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(pdfFile);
-  link.target = "_blank";  // öffnet PDF im neuen Tab
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
+// LKW-Icon klickbar → öffnet neues Tab mit PDF-Platzhalter
+document.querySelectorAll('.icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+        const pdfWindow = window.open('', '_blank');
+        pdfWindow.document.write('<h1>PDF Test</h1><p>Hier erscheinen die PDF-Inhalte entsprechend der ausgewählten Sprache(n).</p>');
+    });
+});
 </script>
+
 </body>
 </html>
-
