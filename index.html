@@ -146,6 +146,9 @@
     if(part === "0404517") size = "L";
     if(part === "2365987") size = "XS";
 
+    // Einfaches Dummy-PDF (Base64, minimaler Inhalt)
+    const dummyPdfBase64 = "JVBERi0xLjUKJcfs..."; // Platzhalter für eine kleine PDF
+    
     resultsBody.innerHTML = `
       <tr>
         <td><strong>${part}</strong><br>Beispielartikel</td>
@@ -154,11 +157,16 @@
         <td>${size}</td>
         <td class="icon">📄</td>
         <td class="icon">📁</td>
-        <td class="icon" onclick="window.print()">🚚</td>
+        <td class="icon" onclick="openPdf()"><span>🚚</span></td>
         <td class="icon">📘</td>
       </tr>
     `;
     resultsTable.style.display = "table";
+
+    function openPdf() {
+      const pdfDataUrl = `data:application/pdf;base64,${dummyPdfBase64}`;
+      window.open(pdfDataUrl, "_blank");
+    }
   }
 
   function resetForm() {
@@ -171,4 +179,3 @@
 </script>
 </body>
 </html>
-
