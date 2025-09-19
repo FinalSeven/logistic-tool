@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -35,18 +34,23 @@
     <input type="text" id="part" placeholder="z. B. 0404517">
 
     <label for="country">Land</label>
-    <select id="country">
+    <select id="country" onchange="loadLanguages()">
       <option value="">-- bitte wählen --</option>
       <option value="DE">Deutschland - DE</option>
       <option value="BE">Belgien - BE</option>
-      <option value="LUX">Luxemburg - LUX</option>
-      <option value="NL">Niederlande - NL</option>
+      <option value="FR">Frankreich - FR</option>
+      <option value="BG">Bulgarien - BG</option>
       <option value="CN">China - CN</option>
+      <option value="DK">Dänemark - DK</option>
+      <option value="EE">Estland - EE</option>
+      <option value="NL">Niederlande - NL</option>
+      <option value="IT">Italien - IT</option>
+      <option value="US">USA - US</option>
       <option value="CA">Kanada - CA</option>
       <option value="KR">Korea - KR</option>
       <option value="CY">Republik Zypern - CY</option>
       <option value="CH">Schweiz - CH</option>
-      <option value="US">USA - US</option>
+      <option value="LUX">Luxemburg - LUX</option>
     </select>
 
     <label for="lang">Sprache</label>
@@ -84,56 +88,58 @@
   const resultsTable = document.getElementById("resultsTable");
   const resultsBody = document.getElementById("resultsBody");
 
+  const landSprachen = {
+    "DE": ["DE"], 
+    "BE": ["DE","FR","NL"], 
+    "FR": ["FR"], 
+    "BG": ["BG"],
+    "CN": ["ZH","EN"], 
+    "DK": ["DA"], 
+    "EE": ["ET"], 
+    "NL": ["NL"],
+    "IT": ["IT"], 
+    "US": ["EN"], 
+    "CA": ["EN","FR"], 
+    "KR": ["KO","EN"],
+    "CY": ["EL","TR"], 
+    "CH": ["DE","FR","IT"],
+    "LUX": ["DE","FR"]
+  };
+
+  const sprachNamen = {
+    "DE": "Deutsch - de",
+    "FR": "Französisch - fr",
+    "NL": "Niederländisch - nl",
+    "BG": "Bulgarisch - bg",
+    "ZH": "Chinesisch - zh",
+    "EN": "Englisch - en",
+    "DA": "Dänisch - da",
+    "ET": "Estnisch - et",
+    "IT": "Italienisch - it",
+    "KO": "Koreanisch - ko",
+    "EL": "Griechisch - el",
+    "TR": "Türkisch - tr"
+  };
+
+  function loadLanguages() {
+    const country = countrySelect.value;
+    langSelect.innerHTML = '<option value="">-- bitte wählen --</option>';
+    const sprachen = landSprachen[country] || [];
+    sprachen.forEach(spr => {
+      const option = document.createElement("option");
+      option.value = spr;
+      option.textContent = sprachNamen[spr];
+      langSelect.appendChild(option);
+    });
+  }
+
   function searchArticle() {
     const part = partField.value.trim();
     const country = countrySelect.value;
     const lang = langSelect.value;
 
     if(!part) { alert("Bitte eine Artikelnummer eingeben!"); return; }
-
-    // Sprache laden je nach Land
-    if(country && langSelect.options.length <= 1) {
-      langSelect.innerHTML = '<option value="">-- bitte wählen --</option>';
-      switch(country) {
-        case "DE": langSelect.innerHTML += '<option value="DE">Deutsch - de</option>'; break;
-        case "BE": 
-          langSelect.innerHTML += '<option value="DE">Deutsch - de</option>';
-          langSelect.innerHTML += '<option value="FR">Französisch - fr</option>';
-          langSelect.innerHTML += '<option value="NL">Niederländisch - nl</option>';
-          break;
-        case "LUX":
-          langSelect.innerHTML += '<option value="DE">Deutsch - de</option>';
-          langSelect.innerHTML += '<option value="FR">Französisch - fr</option>';
-          break;
-        case "CN":
-          langSelect.innerHTML += '<option value="ZH">Chinesisch - zh</option>';
-          langSelect.innerHTML += '<option value="EN">Englisch - en</option>';
-          break;
-        case "CA":
-          langSelect.innerHTML += '<option value="EN">Englisch - en</option>';
-          langSelect.innerHTML += '<option value="FR">Kanadisch-Französisch - fr</option>';
-          break;
-        case "KR":
-          langSelect.innerHTML += '<option value="KO">Koreanisch - ko</option>';
-          langSelect.innerHTML += '<option value="EN">Englisch - en</option>';
-          break;
-        case "CY":
-          langSelect.innerHTML += '<option value="EL">Griechisch - el</option>';
-          langSelect.innerHTML += '<option value="TR">Türkisch - tr</option>';
-          break;
-        case "CH":
-          langSelect.innerHTML += '<option value="DE">Deutsch - de</option>';
-          langSelect.innerHTML += '<option value="FR">Französisch - fr</option>';
-          langSelect.innerHTML += '<option value="IT">Italienisch - it</option>';
-          break;
-        case "US": langSelect.innerHTML += '<option value="EN">Englisch - en</option>'; break;
-      }
-    }
-
-    if(!country || !lang) {
-      alert("Bitte Land und Sprache auswählen!"); 
-      return;
-    }
+    if(!country || !lang) { alert("Bitte Land und Sprache auswählen!"); return; }
 
     // Ergebnis simulieren
     let size = "M";
