@@ -121,6 +121,8 @@
     "TR": "Türkisch - tr"
   };
 
+  let dummyPdfBase64 = "JVBERi0xLjUKJcfs..."; // Platzhalter für Test-PDF Base64
+
   function loadLanguages() {
     const country = countrySelect.value;
     langSelect.innerHTML = '<option value="">-- bitte wählen --</option>';
@@ -133,6 +135,11 @@
     });
   }
 
+  function openPdf() {
+    const pdfDataUrl = `data:application/pdf;base64,${dummyPdfBase64}`;
+    window.open(pdfDataUrl, "_blank");
+  }
+
   function searchArticle() {
     const part = partField.value.trim();
     const country = countrySelect.value;
@@ -141,14 +148,10 @@
     if(!part) { alert("Bitte eine Artikelnummer eingeben!"); return; }
     if(!country || !lang) { alert("Bitte Land und Sprache auswählen!"); return; }
 
-    // Ergebnis simulieren
     let size = "M";
     if(part === "0404517") size = "L";
     if(part === "2365987") size = "XS";
 
-    // Einfaches Dummy-PDF (Base64, minimaler Inhalt)
-    const dummyPdfBase64 = "JVBERi0xLjUKJcfs..."; // Platzhalter für eine kleine PDF
-    
     resultsBody.innerHTML = `
       <tr>
         <td><strong>${part}</strong><br>Beispielartikel</td>
@@ -162,11 +165,6 @@
       </tr>
     `;
     resultsTable.style.display = "table";
-
-    function openPdf() {
-      const pdfDataUrl = `data:application/pdf;base64,${dummyPdfBase64}`;
-      window.open(pdfDataUrl, "_blank");
-    }
   }
 
   function resetForm() {
