@@ -21,6 +21,7 @@
     tr:hover { background:#f9f9f9; }
     .icon { text-align:center; cursor:pointer; font-size:20px; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <header>
@@ -82,6 +83,8 @@
 </div>
 
 <script>
+  const { jsPDF } = window.jspdf;
+
   const partField = document.getElementById("part");
   const countrySelect = document.getElementById("country");
   const langSelect = document.getElementById("lang");
@@ -121,8 +124,6 @@
     "TR": "Türkisch - tr"
   };
 
-  let dummyPdfBase64 = "JVBERi0xLjUKJcfs..."; // Platzhalter für Test-PDF Base64
-
   function loadLanguages() {
     const country = countrySelect.value;
     langSelect.innerHTML = '<option value="">-- bitte wählen --</option>';
@@ -135,9 +136,29 @@
     });
   }
 
+  function generatePdf(part, country, sprachen) {
+    const doc = new jsPDF();
+    let y = 20;
+    sprachen.forEach((spr, idx) => {
+      doc.setFontSize(14);
+      doc.text(`Artikel: ${part}`, 20, y);
+      y += 10;
+      doc.text(`Land: ${country}`, 20, y);
+      y += 10;
+      doc.text(`Sprache: ${sprachNamen[spr]}`, 20, y);
+      y += 20;
+      if(idx < sprachen.length - 1) doc.addPage(); // neue Seite pro Sprache
+    });
+    const pdfDataUrl = doc.output("dataurlnewwindow");
+    return pdfDataUrl;
+  }
+
   function openPdf() {
-    const pdfDataUrl = `data:application/pdf;base64,${dummyPdfBase64}`;
-    window.open(pdfDataUrl, "_blank");
+    const part = partField.value.trim();
+    const country = countrySelect.value;
+    if(!part || !country) { alert("Bitte Artikelnummer und Land wählen!"); return; }
+    const sprachen = landSprachen[country] || [langSelect.value];
+    generatePdf(part, country, sprachen);
   }
 
   function searchArticle() {
@@ -160,7 +181,7 @@
         <td>${size}</td>
         <td class="icon">📄</td>
         <td class="icon">📁</td>
-        <td class="icon" onclick="openPdf()"><span>🚚</span></td>
+        <td class="icon" onclick="openPdf()">🚚</td>
         <td class="icon">📘</td>
       </tr>
     `;
